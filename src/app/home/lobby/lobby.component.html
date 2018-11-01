@@ -1,0 +1,21 @@
+<section id="lobby" class="container-fluid">
+  <div class="row">
+    <div class="col-2" *ngFor="let room of rooms">
+      <div class="card">
+        <div class="card-header">
+          <h6 class="text-center">{{ room.name }}</h6>
+        </div>
+        <img class="card-img-top" [src]="room.imgSrc">
+        <div class="card-body">
+          <p class="card-text row">{{ room.description }}</p>
+          <span class="row">The creator: <strong>{{ room.creator }}</strong></span>
+          <span class="row">Level: <strong>{{ room.level }}</strong></span>
+          <span class="row">Members: <strong>{{ room.members }}</strong></span>
+        </div>
+        <div class="card-footer">
+          <button type="button" (click)="openRoom(room.key)">Entrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
