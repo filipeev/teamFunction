@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as firebase from "firebase";
 import { Router } from '@angular/router';
+import { Room } from 'src/app/models/room.model';
 
 @Component({
   selector: 'app-lobby',
@@ -9,6 +10,7 @@ import { Router } from '@angular/router';
 })
 export class LobbyComponent implements OnInit {
   public rooms: any[] = []
+  private roomMax = 10
   constructor(private router: Router) { }
 
   ngOnInit() {
@@ -38,9 +40,20 @@ export class LobbyComponent implements OnInit {
     });
   }
 
+  public fullRoom(roomQnt: number): boolean {
+    console.log(roomQnt)
+    return roomQnt > this.roomMax
+  }
+
   public openRoom(roomKey: string): void {
     console.log('supose to open room: ', roomKey)
-    this.router.navigate(["/room", roomKey])
+    let selectedRoom = this.rooms.filter((room: Room) => room.key == roomKey)
+    console.log(selectedRoom)
+    if (selectedRoom[0].members < 9) {
+      this.router.navigate(["/room", roomKey])
+    } else {
+      alert('Sala lotada!')
+    }
   }
 
 }

@@ -12,14 +12,17 @@ import { Room } from '../models/room.model';
 export class RoomComponent implements OnInit {
   roomKey: number;
   private sub: any;
-  public room: Room = new Room("", "", "","",0,0,"")
+  public room: Room = new Room("","","","",0,0,"")
   constructor(private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
       this.roomKey = params['roomKey'];
       console.log('supose to be the key: ', this.roomKey)
-      this.consultaSala().then((retorno: Room) => this.room = retorno)
+      this.consultaSala().then((retorno: Room) => {
+        this.room = retorno
+        this.updateRoom(true)
+      })
    });
   }
 
@@ -36,8 +39,19 @@ export class RoomComponent implements OnInit {
     });
   }
 
+  public updateRoom(joined: boolean) {
+    if (joined) {
+      this.room.members++
+    } else {
+      this.room.members--
+    }
+    console.log('members: ', this.room.members)
+    return firebase.database().ref('rooms/' + this.roomKey).update(this.room);
+  }
+
   ngOnDestroy() {
     this.sub.unsubscribe();
+    this.updateRoom(false)
   }
 
 }

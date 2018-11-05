@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { Auth } from '../auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -13,9 +14,12 @@ export class LoginComponent implements OnInit {
     password: new FormControl(''),
   });
 
-  constructor(private fb: FormBuilder, private auth: Auth) { }
+  constructor(private fb: FormBuilder, private auth: Auth, private router: Router) { }
 
   ngOnInit() {
+    if (this.auth.autenticado()) {
+      this.router.navigate(["/home"]);
+    }
   }
 
   public Login(): void {

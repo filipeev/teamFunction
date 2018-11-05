@@ -10,12 +10,14 @@ import { RoomComponent } from './room/room.component';
 import { ChatComponent } from './room/chat/chat.component';
 import { CodeComponent } from './room/code/code.component';
 import { Auth } from './auth.service';
+import { AuthGuard } from './authGuard.service';
 import { RouterModule} from '@angular/router';
 
 import { ROUTES } from "./app.routes";
 import { HomeComponent } from './home/home.component';
 import { AceEditorModule } from 'ng2-ace-editor';
 import { HeaderComponent } from './header/header.component';
+import { RegisterComponent } from './register/register.component';
 
 
 @NgModule({
@@ -27,7 +29,8 @@ import { HeaderComponent } from './header/header.component';
     ChatComponent,
     CodeComponent,
     HomeComponent,
-    HeaderComponent
+    HeaderComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
@@ -36,7 +39,7 @@ import { HeaderComponent } from './header/header.component';
     ReactiveFormsModule,
     RouterModule.forRoot(ROUTES)
   ],
-  providers: [Auth],
+  providers: [Auth, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -9,22 +9,22 @@ export class Auth {
 
   constructor(private router: Router) {}
 
-//   public cadastrarUsuario(usuario: Usuario): Promise<any> {
-//     return firebase
-//       .auth()
-//       .createUserWithEmailAndPassword(usuario.email, usuario.senha)
-//       .then((resposta: any) => {
-//         console.log(resposta);
+  public registerUser(usuario: Usuario): Promise<any> {
+    return firebase
+      .auth()
+      .createUserWithEmailAndPassword(usuario.email, usuario.password)
+      .then((resposta: any) => {
+        console.log(resposta);
 
-//         delete usuario.senha;
+        delete usuario.password;
 
-//         firebase
-//           .database()
-//           .ref(`usuario_detalhe/${btoa(usuario.email)}`)
-//           .set(usuario);
-//       })
-//       .catch((error: Error) => console.log(error));
-//   }
+        firebase
+          .database()
+          .ref(`user_details/${btoa(usuario.email)}`)
+          .set(usuario);
+      })
+      .catch((error: Error) => console.log(error));
+  }
   public autentica(email: string, senha: string): void {
     firebase
       .auth()
@@ -42,26 +42,23 @@ export class Auth {
       })
       .catch((error: Error) => console.log(error));
   }
-//   public autenticado(): boolean {
-//     if (
-//       this.token_id === undefined &&
-//       localStorage.getItem("idToken") !== undefined
-//     ) {
-//       this.token_id = localStorage.getItem("idToken");
-//     }
-//     if( this.token_id === undefined || this.token_id === null){
-//       this.router.navigate(['/']);
-//     }
-//     return this.token_id !== undefined;
-//   }
-//   public logOut(): void {
-//     firebase
-//       .auth()
-//       .signOut()
-//       .then(() => {
-//         localStorage.removeItem("idToken");
-//         this.token_id = undefined;
-//         this.router.navigate(["/"]);
-//       });
-//   }
+  public autenticado(): boolean {
+    if (this.token_id === undefined && localStorage.getItem("idToken") !== undefined) {
+      this.token_id = localStorage.getItem("idToken");
+    }
+    if( this.token_id === undefined || this.token_id === null){
+      this.router.navigate(['/']);
+    }
+    return this.token_id !== undefined;
+  }
+  public logOut(): void {
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        localStorage.removeItem("idToken");
+        this.token_id = undefined;
+        this.router.navigate(["/"]);
+      });
+  }
 }
