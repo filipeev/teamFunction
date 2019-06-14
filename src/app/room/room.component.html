@@ -1,8 +1,8 @@
 <div class="room-info">
-  <ul>
+  <ul *ngIf="room !== null">
     <li class="room-name">{{ room.name }}</li>
     <!-- <li>{{ room.description }}</li> -->
-    <li>Members: {{ room.members }}</li>
+    <li>Members: {{ room.members.length }}</li>
     <li>Level: {{ room.level }}</li>
   </ul>
 </div>

@@ -40,19 +40,17 @@ export class LobbyComponent implements OnInit {
     });
   }
 
-  public fullRoom(roomQnt: number): boolean {
-    console.log(roomQnt)
-    return roomQnt > this.roomMax
-  }
+  // public fullRoom(roomQnt: number): boolean {
+  //   console.log(roomQnt)
+  //   return roomQnt > this.roomMax
+  // }
 
   public openRoom(roomKey: string): void {
-    console.log('supose to open room: ', roomKey)
     let selectedRoom = this.rooms.filter((room: Room) => room.key == roomKey)
-    console.log(selectedRoom)
-    if (selectedRoom[0].members < 9) {
+    if (selectedRoom[0].members.length < this.roomMax) {
       this.router.navigate(["/room", roomKey])
     } else {
-      alert('Sala lotada!')
+      alert('Sorry, the room is full! '+ selectedRoom[0].members.length +'')
     }
   }
 

@@ -10,7 +10,7 @@
           <p class="card-text row">{{ room.description }}</p>
           <span class="row">The creator: <strong>{{ room.creator }}</strong></span>
           <span class="row">Level: <strong>{{ room.level }}</strong></span>
-          <span class="row">Members: <strong>{{ room.members }}</strong></span>
+          <span class="row">Members: <strong>{{ room.members.length }}</strong></span>
         </div>
         <div class="card-footer">
           <button type="button" (click)="openRoom(room.key)">Entrar</button>

@@ -11,7 +11,6 @@ import { Router } from '@angular/router';
 })
 export class AppComponent {
   title = 'teamFunction';
-  public userLogged = new Usuario('sample@email', 'nome completo', 'usuario', '');
   // private stackLogin = 0
   constructor(private auth: Auth, private router: Router) {}
 
@@ -40,8 +39,16 @@ export class AppComponent {
       messagingSenderId: "948273755035"
     };
     firebase.initializeApp(config);
-
+    firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        console.log('user changed: ', user.uid);
+      }
+    });
     // validate if user is auth
-    
+    // if (this.auth.userLogged === null || this.auth.userLogged === undefined) {
+    //   console.log('logado: ', this.auth.userLogged)
+    //   this.auth.getUser();
+    // }
   }
 }

@@ -1,4 +1,4 @@
-<div id="form-login">
+<div id="form-login" class="container-block">
   <form [formGroup]="formLogin" (ngSubmit)="Login()">
     <div class="form-row">
       <label>User</label>
@@ -17,6 +17,9 @@
     <div class="form-row">
       <button type="submit">Login</button>
       <button type="button" [routerLink]="['/register']">Register</button>
+    </div>
+    <div class="form-row">
+      <strong class="error" *ngIf="returnedMessage">{{returnedMessage}}</strong>
     </div>
   </form>
 </div>

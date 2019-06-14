@@ -2,6 +2,8 @@ import { Component, OnInit, OnDestroy, Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import * as firebase from 'firebase'
 import { Room } from '../models/room.model';
+import { Usuario } from '../models/usuario.model';
+import { Auth } from '../auth.service';
 
 @Injectable()
 @Component({
@@ -12,15 +14,17 @@ import { Room } from '../models/room.model';
 export class RoomComponent implements OnInit {
   roomKey: number;
   private sub: any;
-  public room: Room = new Room("","","","",0,0,"")
-  constructor(private route: ActivatedRoute) { }
+  public members: Usuario[];
+  public room: Room = null
+  
+  constructor(private route: ActivatedRoute, private auth: Auth) { }
 
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
       this.roomKey = params['roomKey'];
-      console.log('supose to be the key: ', this.roomKey)
       this.consultaSala().then((retorno: Room) => {
         this.room = retorno
+        console.log('room: ', retorno)
         this.updateRoom(true)
       })
    });
@@ -40,10 +44,17 @@ export class RoomComponent implements OnInit {
   }
 
   public updateRoom(joined: boolean) {
+    console.log('say it all: ', this.room.members, this.auth.userLogged)
     if (joined) {
-      this.room.members++
+      let alrdyInRoom = this.room.members.filter((usr: Usuario) => usr.user === this.auth.userLogged.user)
+      console.log("alrdyInRoom: ", alrdyInRoom)
+      if (alrdyInRoom.length === 0) {
+        this.room.members.push(this.auth.userLogged)
+      }
     } else {
-      this.room.members--
+      let auxAr = this.room.members.filter((usr: Usuario) => usr.user !== this.auth.userLogged.user)
+      this.room.members = auxAr
+      // this.room.members--
     }
     console.log('members: ', this.room.members)
     return firebase.database().ref('rooms/' + this.roomKey).update(this.room);

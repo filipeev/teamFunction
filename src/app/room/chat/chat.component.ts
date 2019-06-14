@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-chat',
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ChatComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: ActivatedRoute) { }
 
   ngOnInit() {
+    console.log(this.router.snapshot.params['roomKey'])
   }
 
 }
